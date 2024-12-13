@@ -18,6 +18,11 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) : 
 
             logger.LogWarning(notFound.Message);
         }
+        catch (ForbiddenAccessException)
+        {
+            context.Response.StatusCode = 403;
+            await context.Response.WriteAsync("You are not allowed to perform this action");
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);
