@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Restaurants.Application.Restaurants.Dtos;
 
 namespace Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 

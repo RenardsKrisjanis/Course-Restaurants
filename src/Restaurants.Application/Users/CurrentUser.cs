@@ -8,3 +8,4 @@ public record CurrentUser(string UserId,
 {
     public bool IsinRole(string role) => Roles.Contains(role);
 }
+    
