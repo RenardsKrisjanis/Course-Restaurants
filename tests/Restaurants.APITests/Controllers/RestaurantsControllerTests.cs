@@ -54,7 +54,7 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
         // Arrange
         var id = 99;
         var restaurant = new Restaurant { Id = id, Name = "Test", Description = "Test Description" };
-        _restaurantsRepositoryMock.Setup(x => x.GetByIdAsync(id)).ReturnsAsync((Restaurant?)null);
+        _restaurantsRepositoryMock.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(restaurant);
         var client = _factory.CreateClient();
         // Act
         var result = await client.GetAsync($"/api/restaurants/{id}");
@@ -89,7 +89,7 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
 
         // Act
 
-        var result = await client.GetAsync("/api/restaurants?pageNumber=1&pageSize=10");
+        var result = await client.GetAsync("/api/restaurants?pageNumber=0&pageSize=3");
 
         // Assert
 
