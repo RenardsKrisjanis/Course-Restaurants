@@ -30,8 +30,8 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext)
     }
 
     public async Task<(IEnumerable<Restaurant>, int)> GetAllMatchingAsync(string? searchPhrase,
-        int pageNumber,
         int pageSize,
+        int pageNumber,
         string? sortBy,
         SortDirection sortDirection)
     {
@@ -39,18 +39,18 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext)
 
         var baseQuery = dbContext
             .Restaurants
-            .Where(r => searchPhrase == null || r.Name.ToLower().Contains(searchPhraseLower) ||
-                       r.Description.ToLower().Contains(searchPhraseLower));
+            .Where(r => searchPhraseLower == null || (r.Name.ToLower().Contains(searchPhraseLower)
+                                                   || r.Description.ToLower().Contains(searchPhraseLower)));
 
         var totalCount = await baseQuery.CountAsync();
 
-        if(sortBy != null)
+        if (sortBy != null)
         {
             var columnsSelector = new Dictionary<string, Expression<Func<Restaurant, object>>>
             {
-                {nameof(Restaurant.Name), r => r.Name},
-                {nameof(Restaurant.Category), r => r.Category},
-                {nameof(Restaurant.Description), r => r.Description},
+                { nameof(Restaurant.Name), r => r.Name },
+                { nameof(Restaurant.Description), r => r.Description },
+                { nameof(Restaurant.Category), r => r.Category },
             };
 
             var selectedColumn = columnsSelector[sortBy];
@@ -60,9 +60,8 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext)
                 : baseQuery.OrderByDescending(selectedColumn);
         }
 
-
         var restaurants = await baseQuery
-            .Skip((pageNumber - 1) * pageSize)
+            .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync();
 

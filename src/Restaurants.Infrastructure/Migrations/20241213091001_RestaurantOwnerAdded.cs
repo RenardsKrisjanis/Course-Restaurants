@@ -15,7 +15,7 @@ namespace Restaurants.Infrastructure.Migrations
                 table: "Restaurants",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "1");
 
             migrationBuilder.Sql("UPDATE Restaurants SET OwnerId = (SELECT TOP 1 Id FROM AspNetUsers)");
 

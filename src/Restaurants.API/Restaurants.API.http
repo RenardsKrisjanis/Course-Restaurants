@@ -92,7 +92,7 @@ Content-Type: application/json
 POST {{Restaurants.API_HostAddress}}/api/identity/register
 Content-Type: application/json
 {
-    "email": "testuser@test.com"
+    "email": "testuser@test.com",
     "password": "Password1!"
 }
 
